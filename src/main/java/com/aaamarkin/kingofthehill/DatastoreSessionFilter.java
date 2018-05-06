@@ -1,7 +1,7 @@
-package com.example.java.gettingstarted;
+package com.aaamarkin.kingofthehill;
 
-import com.example.java.gettingstarted.daos.DataStoreDao;
-import com.example.java.gettingstarted.daos.UserDao;
+import com.aaamarkin.kingofthehill.daos.DataStoreDao;
+import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.google.cloud.datastore.Entity;

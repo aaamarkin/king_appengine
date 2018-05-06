@@ -1,7 +1,7 @@
-package com.example.java.gettingstarted.daos;
+package com.aaamarkin.kingofthehill.daos;
 
-import com.example.java.gettingstarted.objects.Result;
-import com.example.java.gettingstarted.objects.User;
+import com.aaamarkin.kingofthehill.objects.Result;
+import com.aaamarkin.kingofthehill.objects.User;
 
 import com.google.cloud.datastore.*;
 

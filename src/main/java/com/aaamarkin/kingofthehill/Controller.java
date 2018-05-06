@@ -1,7 +1,7 @@
-package com.example.java.gettingstarted;
+package com.aaamarkin.kingofthehill;
 
-import com.example.java.gettingstarted.daos.UserDao;
-import com.example.java.gettingstarted.objects.User;
+import com.aaamarkin.kingofthehill.daos.UserDao;
+import com.aaamarkin.kingofthehill.objects.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

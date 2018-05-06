@@ -16,25 +16,13 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.example.flex.gettingstarted</groupId>
-  <artifactId>helloworld-springboot</artifactId>
+  <groupId>com.aaamarkin.kingofthehill</groupId>
+  <artifactId>kingofthehill-restservice</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>helloworld-springboot</name>
-  <description>Demo project for Spring Boot</description>
-
-  <!--<parent>                              &lt;!&ndash; Get parameters and allow bulk testing &ndash;&gt;-->
-    <!--<artifactId>getting-started-java</artifactId>-->
-    <!--<groupId>com.example</groupId>-->
-    <!--<version>1.0.0</version>-->
-    <!--<relativePath>..</relativePath>-->
-  <!--</parent>-->
-  <!--<parent>-->
-    <!--<groupId>org.springframework.boot</groupId>-->
-    <!--<artifactId>spring-boot-starter-parent</artifactId>-->
-    <!--<version>2.0.1.RELEASE</version>-->
-  <!--</parent>-->
+  <name>kingofthehill-restservice</name>
+  <description>Google App Engine Rest Service for King of the hill game</description>
 
   <properties>
     <java.version>1.8</java.version>

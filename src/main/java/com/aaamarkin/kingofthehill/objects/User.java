@@ -1,4 +1,4 @@
-package com.example.java.gettingstarted.objects;
+package com.aaamarkin.kingofthehill.objects;
 
 public class User {
 

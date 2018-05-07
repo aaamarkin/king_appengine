@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "kingofthehill-202721",
+  "private_key_id": "10e5c1dfbd721cc7ae8251a826dbc49b3fcc69ab",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDa504iV0kXZrO4\nfPt09TQOUYkvry6iTE0fTaCq4bHZIrLgvPkAx+KTGEqul4UWF+LHZjA6BoIKHS1c\ncpRX7pfNAyTwYSKPvDdGCh0lZhAvxgNus22BLChHf6YFQ2nPajKGea0d8ILgJJJl\nEChHBSwQDhIkwPXCXkijZTv4Wp6WjW+6R+ewsO2Zz+Up3GzYpPanPXS2c4MggdkG\nRMM312hWjBDvP8eyDafpOkUG0hKXL4izgqd3w+8janzctnPhKSs/lYUQrH+Jr9wt\nYFdU5MUm9WvqTDZqmfYsW6afnxVz2YGP/laO4hTcIYZdmFUo2V0mtaL7UHpZmYuf\n8jMnGuB/AgMBAAECggEAF2jSBcEg22RLxuhyuay5PujAS32n9opDWxwhmPSe4NIh\noAAFfuxhUgqwfeBNRrISOfG3KZVllbBOGAtWytqEmFOEQUKaABYIMTDGsieqhnle\nB5oflUdEHXVMq1Zsu9YnBhOADGoajN7MWwtxyzqF3keq8AxEm98aVILweVwzhnTx\n8PlhjrEFsmTuqU0WWqsxrcJFLGa3hqFxie/Sf0sNbOHbL1Tgyn/H9lCTWFetwNNa\nzrEXsuL9oSHmA0QvTkjHvsXdasX97S6PgOnKQy5O2/dmCzB6yAFuhmaVNaHqk708\nTD0YXh9QJEaMgVAq4fohMwS2sCmkJyWfOrDJm4ajaQKBgQD5aN/x19i6BvcNWF+7\n/Z30G4/iO/n0J7m3UWdeSGJ+BjiGUldiPf1yealR2fH6j7IBCZZ0jZWXzP1UphSq\nxSjHftQ9dlGKMqCQTp6QvQpKXBorlm6MPhmTqWEVFfptcwRqz9cgAWoYI0gr+m42\nrvufrrraG/KbJrNSzXJCE0/R9wKBgQDgsBKPE1JMGscgGMwO+ft5E+Or1xfelo/D\noqlBGR0wAoNtDj+/DwuI4N8vX/nS3XZGQqVge6lTxY8ai9epDtk/9Fhwp4IlBRNA\ntkrfq4n49xTRTONrOE9rTXHFRTkvmrWjQMAqlQFDujroGWRMrXEjgGup/k+0wxkg\ngIhLpyvDuQKBgQCk1FqsSipBRzke6LjcVNB+83gz289lPJvQO0xFUzFEeHgCzYhS\ntQU7EoyEO7VgEndhmCSHAstKd3804k3mTkaVEYzS0c8xtiPHOy4wGb8jRZtGEzUc\nGi5tGBPBC7VlgA37SUCzNjwXl7mq1ubf3OUOsztpye6b+weoQX6xjHHEIQKBgEYO\nYBsAOT7FcqTNVoKs6v27d9dSf3zFkRm8k+1aOUGI5xWPxcx6kmwhQTVyRWC78G7D\nxPCqXgdip9XtGFb77D0GoLSvZeLJDFG3BO1sfN6Fm5YO1THPIuQgB4MsrEHtiQjX\n3ZLpVrWZUVig4icORSJ+nhMo2g1Qb3s02EpOW1TxAoGBAJgkmN6kKwY3eMVhBfv7\n1LWlK1n4U7gsDJAHrrpGmvJdRb+SiFkuyFMRw8uboCeUkNg4NGQKfl6/F7peah5p\ntfPVZnWup+nniEwBIm7zz5uGRK+kCmX3nIYWQbdB7EIeGDmp1VORHj89xHhQsLFs\nHXDaiIdkWoh+COytY+6QIxcE\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-7rwqx@kingofthehill-202721.iam.gserviceaccount.com",
+  "client_id": "108823775964312790869",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-7rwqx%40kingofthehill-202721.iam.gserviceaccount.com"
+}

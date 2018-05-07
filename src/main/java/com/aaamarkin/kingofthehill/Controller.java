@@ -2,9 +2,11 @@ package com.aaamarkin.kingofthehill;
 
 import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.aaamarkin.kingofthehill.objects.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletContext;
@@ -65,4 +67,24 @@ public class Controller {
         User user = dao.readUser( 1L);
         return "User = " + user.toString();
     }
+
+    @RequestMapping("/verify")
+    public String verify(@RequestHeader("oauthToken") String idToken) {
+
+        String uid;
+
+        try {
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get();
+            uid = decodedToken.getUid();
+
+        } catch (Exception e) {
+            uid = "Exception caught";
+        }
+
+
+        return "Token = " + uid;
+    }
+
+
+
 }

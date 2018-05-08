@@ -7,9 +7,11 @@ import com.google.cloud.datastore.*;
 
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
 import com.google.datastore.v1.PropertyFilter;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DataStoreDao implements UserDao {
 
@@ -41,9 +43,34 @@ public class DataStoreDao implements UserDao {
     }
 
     @Override
-    public User readUser(Long userId) {
-        Entity userEntity = datastore.get(keyFactory.newKey(userId)); // Load an Entity for Key(id)
-        return entityToUser(userEntity);
+    public Optional<User> readUser(String userExternalId) {
+
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind("User3")
+                .setFilter(StructuredQuery.PropertyFilter.eq(User.EXTERNAL_ID, userExternalId)                )
+                .build();
+
+        QueryResults<Entity> resultList = datastore.run(query);
+        if(resultList.hasNext()){
+            return Optional.of(entityToUser(resultList.next()));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Key> readUserKey(String userExternalId) {
+        Query<Key> query = Query.newKeyQueryBuilder()
+                .setKind("User3")
+                .setFilter(StructuredQuery.PropertyFilter.eq(User.EXTERNAL_ID, userExternalId)                )
+                .build();
+
+        QueryResults<Key> resultList = datastore.run(query);
+        if(resultList.hasNext()){
+            return Optional.of(resultList.next());
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

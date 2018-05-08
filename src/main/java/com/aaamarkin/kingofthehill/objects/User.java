@@ -4,10 +4,12 @@ public class User {
 
     private String login;
     private String creationDate;
+    private String externalId;
     private Long id;
 
     public static final String LOGIN = "login";
     public static final String CREATION_DATE = "creationDate";
+    public static final String EXTERNAL_ID = "externalId";
 
     public static final String ID = "id";
 
@@ -15,6 +17,7 @@ public class User {
     private User(Builder builder) {
         this.login = builder.login;
         this.creationDate = builder.creationDate;
+        this.externalId = builder.externalId;
         this.id = builder.id;
     }
 
@@ -22,6 +25,7 @@ public class User {
     public static class Builder {
         private String login;
         private String creationDate;
+        private String externalId;
         private Long id;
 
         public Builder login(String login) {
@@ -31,6 +35,11 @@ public class User {
 
         public Builder creationDate(String creationDate) {
             this.creationDate = creationDate;
+            return this;
+        }
+
+        public Builder externalId(String externalId) {
+            this.externalId = externalId;
             return this;
         }
 
@@ -60,6 +69,14 @@ public class User {
         this.creationDate = creationDate;
     }
 
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
     public Long getId() {
         return id;
     }
@@ -74,6 +91,7 @@ public class User {
         return "User{" +
                 "login='" + login + '\'' +
                 ", creationDate='" + creationDate + '\'' +
+                ", externalId='" + externalId + '\'' +
                 ", id=" + id +
                 '}';
     }

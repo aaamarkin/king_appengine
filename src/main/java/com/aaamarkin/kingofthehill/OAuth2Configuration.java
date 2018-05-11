@@ -15,7 +15,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @Configuration
 @EnableResourceServer
 @EnableAuthorizationServer
-public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
+public class OAuth2Configuration
+        extends AuthorizationServerConfigurerAdapter
+{
 
     String applicationName = "bookmarks";
 
@@ -28,6 +30,9 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
             throws Exception {
         // Workaround for https://github.com/spring-projects/spring-boot/issues/1801
+
+        System.out.print("AuthorizationServerEndpointsConfigurer ");
+
         endpoints.authenticationManager(new AuthenticationManager() {
             @Override
             public Authentication authenticate(Authentication authentication)
@@ -40,8 +45,10 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
+        System.out.print("ClientDetailsServiceConfigurer ");
+
         clients.inMemory()
-                .withClient("android-" + applicationName)
+                .withClient("iOs-" + applicationName)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .authorities("ROLE_USER")
                 .scopes("write")

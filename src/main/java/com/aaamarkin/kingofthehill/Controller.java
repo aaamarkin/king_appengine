@@ -1,16 +1,12 @@
 package com.aaamarkin.kingofthehill;
 
 import com.aaamarkin.kingofthehill.daos.UserDao;
+import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import java.security.Principal;
 
 @RestController
@@ -39,12 +35,29 @@ public class Controller {
     @RequestMapping("/db")
     public String dbCheck(Principal principal) {
         // Message body required though ignored
-        validateUser(principal);
+//        validateUser(principal);
 
         UserDao dao = (UserDao) context.getAttribute("dao");
         // [START bookBuilder]
         User user = new User.Builder()
-                .login("login1")
+                .password("login1")
+                .creationDate((String) context.getAttribute("publishedDate"))
+                .build();
+        // [END bookBuilder]
+        Long id = dao.createUser(user);
+
+        return "Checking DB. Id = " + id;
+    }
+
+    @RequestMapping("/{userId}/insert")
+    public String insert(@PathVariable String userId) {
+        // Message body required though ignored
+//        validateUser(principal);
+
+        UserDao dao = (UserDao) context.getAttribute("dao");
+        // [START bookBuilder]
+        User user = new User.Builder()
+                .externalId(userId)
                 .creationDate((String) context.getAttribute("publishedDate"))
                 .build();
         // [END bookBuilder]
@@ -57,17 +70,12 @@ public class Controller {
     public String dbGet() {
         // Message body required though ignored
 
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//        // [START bookBuilder]
-//        User user = new User.Builder()
-//                .login("login1")
-//                .creationDate((String) context.getAttribute("publishedDate"))
-//                .build();
-//        // [END bookBuilder]
-//        Long id = dao.createUser(user);
+        UserDao dao = (UserDao) context.getAttribute("dao");
+        // [START bookBuilder]
 
-//        User user = dao.readUser( 1L);
-        return "A STUB";
+        Result<User> userResult = dao.listUsers(null);
+
+        return userResult.result.toString();
     }
 
 //    @RequestMapping("/verify")
@@ -87,22 +95,56 @@ public class Controller {
 //        return "Token = " + uid;
 //    }
 
-    @RequestMapping("/login")
-    public String anonymousLogin(@RequestHeader("deviceId") String deviceId) {
-
+    @RequestMapping("/anon_login")
+    public String anonymousLogin(Principal principal) {
+        validateUser(principal);
+//        UserDao dao = (UserDao) context.getAttribute("dao");
+//        dao.getUserKeyByExternalId(deviceId).map(
+//                key -> {
+//
+//                }
+//        );
         return "A STUB";
+    }
+
+
+    @RequestMapping("/{userId}/test")
+    public String test(@PathVariable Long userId) {
+
+        UserDao dao = (UserDao) context.getAttribute("dao");
+
+        User user = dao.getUserById(userId);
+
+        return "User = " + user.toString();
     }
 
 //    private void validateUser(String externalUserId) {
 //        UserDao dao = (UserDao) context.getAttribute("dao");
-//        dao.readUserKey(externalUserId).orElseThrow(
+//        dao.getUserKeyByExternalId(externalUserId).orElseThrow(
+//                () -> new UserNotFoundException(externalUserId));
+//    }
+
+    @RequestMapping("/{userId}/delete")
+    public String delete(@PathVariable Long userId) {
+
+        UserDao dao = (UserDao) context.getAttribute("dao");
+
+        dao.deleteUser(userId);
+
+        return "Deleted? ";
+    }
+
+//    private void validateUser(String externalUserId) {
+//        UserDao dao = (UserDao) context.getAttribute("dao");
+//        dao.getUserKeyByExternalId(externalUserId).orElseThrow(
 //                () -> new UserNotFoundException(externalUserId));
 //    }
 
     private void validateUser(Principal principal) {
+        System.out.println("validateUser = " + principal.getName());
         String userExternalId = principal.getName();
         UserDao dao = (UserDao) context.getAttribute("dao");
-        dao.readUserKey(userExternalId)
+        dao.getUserKeyByExternalId(userExternalId)
                 .orElseThrow(
                         () -> new UserNotFoundException(userExternalId));
     }

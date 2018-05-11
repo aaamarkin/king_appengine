@@ -23,7 +23,6 @@
 
   <name>kingofthehill-restservice</name>
   <description>Google App Engine Rest Service for King of the hill game</description>
-
   <properties>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source> <!-- REQUIRED -->
@@ -40,6 +39,13 @@
     <bookshelf.clientSecret>vmNuXr_08R6pBqFuo3CkwFU4</bookshelf.clientSecret>        <!-- from g.co/cloud/console -->
 
   </properties>
+
+  <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.0.2.RELEASE</version>
+      <relativePath/> <!-- lookup parent from repository -->
+  </parent>
 
   <dependencies>
     <dependency>
@@ -65,6 +71,12 @@
       <groupId>org.springframework.security.oauth</groupId>
       <artifactId>spring-security-oauth2</artifactId>
       <version>2.3.2.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-jwt</artifactId>
+      <version>1.0.9.RELEASE</version>
     </dependency>
 
     <dependency>
@@ -116,6 +128,12 @@
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
       <version>2.9.9</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.0</version>
     </dependency>
 
   </dependencies>

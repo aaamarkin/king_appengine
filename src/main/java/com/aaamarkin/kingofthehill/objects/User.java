@@ -1,13 +1,18 @@
 package com.aaamarkin.kingofthehill.objects;
 
-public class User {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    private String login;
+import java.util.Collection;
+
+public class User implements UserDetails {
+
+    private String password;
     private String creationDate;
     private String externalId;
     private Long id;
 
-    public static final String LOGIN = "login";
+    public static final String PASSWORD = "password";
     public static final String CREATION_DATE = "creationDate";
     public static final String EXTERNAL_ID = "externalId";
 
@@ -15,7 +20,7 @@ public class User {
 
 
     private User(Builder builder) {
-        this.login = builder.login;
+        this.password = builder.password;
         this.creationDate = builder.creationDate;
         this.externalId = builder.externalId;
         this.id = builder.id;
@@ -23,13 +28,13 @@ public class User {
 
 
     public static class Builder {
-        private String login;
+        private String password;
         private String creationDate;
         private String externalId;
         private Long id;
 
-        public Builder login(String login) {
-            this.login = login;
+        public Builder password(String password) {
+            this.password = password;
             return this;
         }
 
@@ -53,12 +58,42 @@ public class User {
         }
     }
 
-    public String getLogin() {
-        return login;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    @Override
+    public String getUsername() {
+        return externalId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCreationDate() {
@@ -89,7 +124,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "login='" + login + '\'' +
+                "password='" + password + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", externalId='" + externalId + '\'' +
                 ", id=" + id +

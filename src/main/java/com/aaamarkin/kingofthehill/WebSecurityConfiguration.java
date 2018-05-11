@@ -11,11 +11,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.servlet.ServletContext;
+
 @Configuration
-public class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+public class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter
+{
 
     @Autowired
-    UserDao userDao;
+    ServletContext servletContext;
 
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
@@ -24,12 +27,17 @@ public class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdap
 
     @Bean
     UserDetailsService userDetailsService() {
-        return (username) -> userDao
-                .readUser(username)
-                .map(a -> new User(a.getLogin(), a.getExternalId(), true, true, true, true,
+
+        UserDao userDao = (UserDao) servletContext.getAttribute("dao");
+
+        System.out.println("userDetailsService");
+        return (userExternalId) -> userDao
+                .getUserByExternalId(userExternalId)
+                .map(a -> new User( a.getExternalId(), a.getPassword(), true, true, true, true,
                         AuthorityUtils.createAuthorityList("USER", "write")))
                 .orElseThrow(
                         () -> new UsernameNotFoundException("could not find the user '"
-                                + username + "'"));
+                                + userExternalId + "'"));
+
     }
 }

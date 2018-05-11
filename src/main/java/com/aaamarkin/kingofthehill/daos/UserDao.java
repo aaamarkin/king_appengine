@@ -11,9 +11,11 @@ public interface UserDao {
 
     Long createUser(User user);
 
-    Optional<User> readUser(String userExternalId);
+    Optional<User> getUserByExternalId(String userExternalId);
 
-    Optional<Key> readUserKey(String userExternalId);
+    User getUserById(Long id);
+
+    Optional<Key> getUserKeyByExternalId(String userExternalId);
 
     List<User> readUsers(String userLogin);
 

@@ -6,8 +6,6 @@ import com.aaamarkin.kingofthehill.objects.User;
 import com.google.cloud.datastore.*;
 
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
-import com.google.datastore.v1.PropertyFilter;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +22,10 @@ public class DataStoreDao implements UserDao {
     }
 
     public User entityToUser(Entity entity) {
-        return new User.Builder()                                     // Convert to Book form
-                .login(entity.getString(User.LOGIN))
+
+        return new User.Builder()
+                .externalId(entity.getString(User.EXTERNAL_ID))
+                .password(entity.getString(User.PASSWORD))
                 .id(entity.getKey().getId())
                 .creationDate(entity.getString(User.CREATION_DATE))
                 .build();
@@ -35,7 +35,8 @@ public class DataStoreDao implements UserDao {
     public Long createUser(User user) {
         IncompleteKey key = keyFactory.newKey();          // Key will be assigned once written
         FullEntity<IncompleteKey> incUserEntity = Entity.newBuilder(key)  // Create the Entity
-                .set(User.LOGIN, user.getLogin())           // Add Property ("login", user.getLogin())
+                .set(User.EXTERNAL_ID, user.getExternalId())
+                .set(User.PASSWORD, "test password")
                 .set(User.CREATION_DATE, user.getCreationDate())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
@@ -43,7 +44,7 @@ public class DataStoreDao implements UserDao {
     }
 
     @Override
-    public Optional<User> readUser(String userExternalId) {
+    public Optional<User> getUserByExternalId(String userExternalId) {
 
         Query<Entity> query = Query.newEntityQueryBuilder()
                 .setKind("User3")
@@ -59,7 +60,16 @@ public class DataStoreDao implements UserDao {
     }
 
     @Override
-    public Optional<Key> readUserKey(String userExternalId) {
+    public User getUserById(Long id) {
+
+        Entity userEntity = datastore.get(keyFactory.newKey(id));
+
+        return entityToUser(userEntity);
+
+    }
+
+    @Override
+    public Optional<Key> getUserKeyByExternalId(String userExternalId) {
         Query<Key> query = Query.newKeyQueryBuilder()
                 .setKind("User3")
                 .setFilter(StructuredQuery.PropertyFilter.eq(User.EXTERNAL_ID, userExternalId)                )
@@ -89,7 +99,8 @@ public class DataStoreDao implements UserDao {
     public void updateUser(User user) {
         Key key = keyFactory.newKey(user.getId());  // From a user, create a Key
         Entity entity = Entity.newBuilder(key)         // Convert User to an Entity
-                .set(User.LOGIN, user.getLogin())
+                .set(User.EXTERNAL_ID, user.getExternalId())
+                .set(User.PASSWORD, user.getPassword())
                 .set(User.CREATION_DATE, user.getCreationDate())
                 .build();
         datastore.update(entity);
@@ -119,7 +130,7 @@ public class DataStoreDao implements UserDao {
                 .setKind("User3")                                     // We only care about Users
                 .setLimit(10)                                         // Only show 10 at a time
                 .setStartCursor(startCursor)                          // Where we left off
-                .setOrderBy(OrderBy.asc(User.LOGIN))                  // Use default Index "title"
+                .setOrderBy(OrderBy.asc(User.PASSWORD))                  // Use default Index "title"
                 .build();
         QueryResults<Entity> resultList = datastore.run(query);   // Run the query
         List<User> resultUsers = entitiesToUsers(resultList);     // Retrieve and convert Entities

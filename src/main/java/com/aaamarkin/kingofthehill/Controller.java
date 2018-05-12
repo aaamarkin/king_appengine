@@ -15,7 +15,7 @@ public class Controller {
     @Autowired
     ServletContext context;
 
-    @RequestMapping("/")
+    @RequestMapping("/user/")
     public String home() {
         return "Hello World!";
     }
@@ -32,7 +32,7 @@ public class Controller {
         return "Still surviving.";
     }
 
-    @RequestMapping("/db")
+    @RequestMapping("/user/db")
     public String dbCheck(Principal principal) {
         // Message body required though ignored
 //        validateUser(principal);
@@ -49,7 +49,7 @@ public class Controller {
         return "Checking DB. Id = " + id;
     }
 
-    @RequestMapping("/{userId}/insert")
+    @RequestMapping("/user/{userId}/insert")
     public String insert(@PathVariable String userId) {
         // Message body required though ignored
 //        validateUser(principal);
@@ -66,7 +66,7 @@ public class Controller {
         return "Checking DB. Id = " + id;
     }
 
-    @RequestMapping("/get")
+    @RequestMapping("/user/get")
     public String dbGet() {
         // Message body required though ignored
 
@@ -95,9 +95,9 @@ public class Controller {
 //        return "Token = " + uid;
 //    }
 
-    @RequestMapping("/anon_login")
+    @RequestMapping("/user/anon_login")
     public String anonymousLogin(Principal principal) {
-        validateUser(principal);
+//        validateUser(principal);
 //        UserDao dao = (UserDao) context.getAttribute("dao");
 //        dao.getUserKeyByExternalId(deviceId).map(
 //                key -> {
@@ -108,7 +108,7 @@ public class Controller {
     }
 
 
-    @RequestMapping("/{userId}/test")
+    @RequestMapping("/user/{userId}/test")
     public String test(@PathVariable Long userId) {
 
         UserDao dao = (UserDao) context.getAttribute("dao");
@@ -124,7 +124,7 @@ public class Controller {
 //                () -> new UserNotFoundException(externalUserId));
 //    }
 
-    @RequestMapping("/{userId}/delete")
+    @RequestMapping("/user/{userId}/delete")
     public String delete(@PathVariable Long userId) {
 
         UserDao dao = (UserDao) context.getAttribute("dao");

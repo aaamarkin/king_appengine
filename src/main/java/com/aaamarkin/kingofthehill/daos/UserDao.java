@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    Long createUser(User user);
+    User createUser(User user);
 
     Optional<User> getUserByExternalId(String userExternalId);
 

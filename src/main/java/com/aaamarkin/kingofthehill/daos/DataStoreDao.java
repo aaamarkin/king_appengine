@@ -32,15 +32,15 @@ public class DataStoreDao implements UserDao {
     }
 
     @Override
-    public Long createUser(User user) {
+    public User createUser(User user) {
         IncompleteKey key = keyFactory.newKey();          // Key will be assigned once written
         FullEntity<IncompleteKey> incUserEntity = Entity.newBuilder(key)  // Create the Entity
                 .set(User.EXTERNAL_ID, user.getExternalId())
-                .set(User.PASSWORD, "test password")
+                .set(User.PASSWORD, user.getPassword())
                 .set(User.CREATION_DATE, user.getCreationDate())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
-        return userEntity.getKey().getId();                     // The ID of the Key
+        return entityToUser(userEntity);
     }
 
     @Override

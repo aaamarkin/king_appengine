@@ -3,11 +3,13 @@ package com.aaamarkin.kingofthehill;
 import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
+import com.google.cloud.datastore.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import java.security.Principal;
+import java.util.Optional;
 
 @RestController
 public class Controller {
@@ -31,23 +33,35 @@ public class Controller {
         // Message body required though ignored
         return "Still surviving.";
     }
+//
+//    @RequestMapping("/signIn")
+//    public String signIn(@RequestHeader("deviceId") String deviceId) {
+//        // Message body required though ignored
+//        UserDao dao = (UserDao) context.getAttribute("dao");
+//
+//        Optional<Key> keyOpt = dao.getUserKeyByExternalId(deviceId);
+//
+//        if (!keyOpt.isPresent()) {
+//
+//        }
+//    }
 
-    @RequestMapping("/user/db")
-    public String dbCheck(Principal principal) {
-        // Message body required though ignored
-//        validateUser(principal);
-
-        UserDao dao = (UserDao) context.getAttribute("dao");
-        // [START bookBuilder]
-        User user = new User.Builder()
-                .password("login1")
-                .creationDate((String) context.getAttribute("publishedDate"))
-                .build();
-        // [END bookBuilder]
-        Long id = dao.createUser(user);
-
-        return "Checking DB. Id = " + id;
-    }
+//    @RequestMapping("/user/db")
+//    public String dbCheck(Principal principal) {
+//        // Message body required though ignored
+////        validateUser(principal);
+//
+//        UserDao dao = (UserDao) context.getAttribute("dao");
+//        // [START bookBuilder]
+//        User user = new User.Builder()
+//                .password("login1")
+//                .creationDate((String) context.getAttribute("publishedDate"))
+//                .build();
+//        // [END bookBuilder]
+//        Long id = dao.createUser(user);
+//
+//        return "Checking DB. Id = " + id;
+//    }
 
     @RequestMapping("/user/{userId}/insert")
     public String insert(@PathVariable String userId) {
@@ -61,7 +75,7 @@ public class Controller {
                 .creationDate((String) context.getAttribute("publishedDate"))
                 .build();
         // [END bookBuilder]
-        Long id = dao.createUser(user);
+        Long id = dao.createUser(user).getId();
 
         return "Checking DB. Id = " + id;
     }

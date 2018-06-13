@@ -3,12 +3,14 @@ package com.aaamarkin.kingofthehill;
 import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
+import com.aaamarkin.kingofthehill.services.MapService;
 import com.google.cloud.datastore.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -92,22 +94,19 @@ public class Controller {
         return userResult.result.toString();
     }
 
-//    @RequestMapping("/verify")
-//    public String verify(@RequestHeader("oauthToken") String idToken) {
-//
-//        String uid;
-//
-//        try {
-//            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdTokenAsync(idToken).get();
-//            uid = decodedToken.getUid();
-//
-//        } catch (Exception e) {
-//            uid = "Exception caught";
-//        }
-//
-//
-//        return "Token = " + uid;
-//    }
+    @RequestMapping("/user/getMap")
+    public byte[] downloadMap(Principal principal) {
+        // Message body required though ignored
+
+        UserDao dao = (UserDao) context.getAttribute("dao");
+
+        Optional<User> userOpt = dao.getUserByExternalId(principal.getName());
+
+
+        return MapService.getMapAsByteArray(MapService.getMap(userOpt.get().getXCoordinate(), userOpt.get().getYCoordinate()));
+
+    }
+
 
     @RequestMapping("/user/anon_login")
     public String anonymousLogin(Principal principal) {

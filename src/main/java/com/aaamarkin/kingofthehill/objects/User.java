@@ -6,14 +6,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class User
-        implements UserDetails
+public class User implements UserDetails
 {
 
     private String password;
     private String creationDate;
     private String externalId;
     private Long id;
+
+    private Long xCoordinate;
+    private Long yCoordinate;
 
     public static final String PASSWORD = "password";
     public static final String CREATION_DATE = "creationDate";
@@ -121,6 +123,23 @@ public class User
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public Long getXCoordinate() {
+        return xCoordinate;
+    }
+
+    public void setXCoordinate(Long xCoordinate) {
+        this.xCoordinate = xCoordinate;
+    }
+
+    public Long getYCoordinate() {
+        return yCoordinate;
+    }
+
+    public void setYCoordinate(Long yCoordinate) {
+        this.yCoordinate = yCoordinate;
     }
 
 

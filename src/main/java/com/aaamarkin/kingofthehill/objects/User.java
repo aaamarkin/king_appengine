@@ -12,30 +12,35 @@ public class User implements UserDetails
     private String password;
     private String creationDate;
     private String externalId;
-    private Long id;
 
     private Long xCoordinate;
     private Long yCoordinate;
 
-    public static final String PASSWORD = "password";
-    public static final String CREATION_DATE = "creationDate";
-    public static final String EXTERNAL_ID = "externalId";
+    private Long id;
 
-    public static final String ID = "id";
+    public static final String PASSWORD = "a";
+    public static final String CREATION_DATE = "b";
+    public static final String EXTERNAL_ID = "c";
+    public static final String X_COORDINATE = "d";
+    public static final String Y_COORDINATE = "e";
+
 
 
     private User(Builder builder) {
         this.password = builder.password;
         this.creationDate = builder.creationDate;
         this.externalId = builder.externalId;
+        this.xCoordinate = builder.xCoordinate;
+        this.yCoordinate = builder.yCoordinate;
         this.id = builder.id;
     }
-
 
     public static class Builder {
         private String password;
         private String creationDate;
         private String externalId;
+        private Long xCoordinate;
+        private Long yCoordinate;
         private Long id;
 
         public Builder password(String password) {
@@ -50,6 +55,16 @@ public class User implements UserDetails
 
         public Builder externalId(String externalId) {
             this.externalId = externalId;
+            return this;
+        }
+
+        public Builder xCoordinate(Long xCoordinate) {
+            this.xCoordinate = xCoordinate;
+            return this;
+        }
+
+        public Builder yCoordinate(Long yCoordinate) {
+            this.yCoordinate = yCoordinate;
             return this;
         }
 
@@ -149,6 +164,8 @@ public class User implements UserDetails
                 "password='" + password + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", externalId='" + externalId + '\'' +
+                ", xCoordinate=" + xCoordinate +
+                ", yCoordinate=" + yCoordinate +
                 ", id=" + id +
                 '}';
     }

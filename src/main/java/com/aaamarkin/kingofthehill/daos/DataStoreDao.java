@@ -1,5 +1,6 @@
 package com.aaamarkin.kingofthehill.daos;
 
+import com.aaamarkin.kingofthehill.objects.MapObject;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
 
@@ -11,15 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class DataStoreDao implements UserDao {
+public class DataStoreDao implements UserDao, MapObjectDao {
 
     private Datastore datastore;
-    private KeyFactory keyFactory;
+    private KeyFactory userKeyFactory;
+    private KeyFactory mapObjectKeyFactory;
 
     public DataStoreDao() {
         datastore = DatastoreOptions.getDefaultInstance().getService(); // Authorized Datastore service
-        keyFactory = datastore.newKeyFactory().setKind("User3");      // Is used for creating keys later
+        userKeyFactory = datastore.newKeyFactory().setKind("User3");      // Is used for creating keys later
+        mapObjectKeyFactory = datastore.newKeyFactory().setKind("MapObject3");
     }
+
+
+    // User Dao implementation
 
     public User entityToUser(Entity entity) {
 
@@ -28,16 +34,20 @@ public class DataStoreDao implements UserDao {
                 .password(entity.getString(User.PASSWORD))
                 .id(entity.getKey().getId())
                 .creationDate(entity.getString(User.CREATION_DATE))
+                .xCoordinate(entity.getLong(User.X_COORDINATE))
+                .yCoordinate(entity.getLong(User.Y_COORDINATE))
                 .build();
     }
 
     @Override
     public User createUser(User user) {
-        IncompleteKey key = keyFactory.newKey();          // Key will be assigned once written
+        IncompleteKey key = userKeyFactory.newKey();          // Key will be assigned once written
         FullEntity<IncompleteKey> incUserEntity = Entity.newBuilder(key)  // Create the Entity
                 .set(User.EXTERNAL_ID, user.getExternalId())
                 .set(User.PASSWORD, user.getPassword())
                 .set(User.CREATION_DATE, user.getCreationDate())
+                .set(User.X_COORDINATE, user.getXCoordinate())
+                .set(User.Y_COORDINATE, user.getYCoordinate())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
         return entityToUser(userEntity);
@@ -62,7 +72,7 @@ public class DataStoreDao implements UserDao {
     @Override
     public User getUserById(Long id) {
 
-        Entity userEntity = datastore.get(keyFactory.newKey(id));
+        Entity userEntity = datastore.get(userKeyFactory.newKey(id));
 
         return entityToUser(userEntity);
 
@@ -97,18 +107,20 @@ public class DataStoreDao implements UserDao {
 
     @Override
     public void updateUser(User user) {
-        Key key = keyFactory.newKey(user.getId());  // From a user, create a Key
+        Key key = userKeyFactory.newKey(user.getId());  // From a user, create a Key
         Entity entity = Entity.newBuilder(key)         // Convert User to an Entity
                 .set(User.EXTERNAL_ID, user.getExternalId())
                 .set(User.PASSWORD, user.getPassword())
                 .set(User.CREATION_DATE, user.getCreationDate())
+                .set(User.X_COORDINATE, user.getXCoordinate())
+                .set(User.Y_COORDINATE, user.getYCoordinate())
                 .build();
         datastore.update(entity);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        Key key = keyFactory.newKey(userId);        // Create the Key
+        Key key = userKeyFactory.newKey(userId);        // Create the Key
         datastore.delete(key);
     }
 
@@ -143,4 +155,39 @@ public class DataStoreDao implements UserDao {
         }
     }
 
+
+    // Map Object Dao implementation
+
+    public MapObject entityToMapObject(Entity entity) {
+
+        return new MapObject.Builder()
+                .type(Short.parseShort(entity.getString(MapObject.TYPE)))
+                .xCoordinate(entity.getLong(MapObject.X_COORDINATE))
+                .yCoordinate(entity.getLong(MapObject.Y_COORDINATE))
+                .build();
+    }
+
+    @Override
+    public MapObject createMapObject(MapObject mapObject) {
+        IncompleteKey key = mapObjectKeyFactory.newKey();          // Key will be assigned once written
+        FullEntity<IncompleteKey> incMapObjectEntity = Entity.newBuilder(key)  // Create the Entity
+                .set(MapObject.TYPE, mapObject.getType())
+                .set(MapObject.X_COORDINATE, mapObject.getXCoordinate())
+                .set(MapObject.Y_COORDINATE, mapObject.getYCoordinate())
+                .build();
+        Entity mapObjectEntity = datastore.add(incMapObjectEntity); // Save the Entity
+        return entityToMapObject(mapObjectEntity);
+    }
+
+    @Override
+    public Optional<MapObject> getMapObjectByCoordinates(Long xCoordinate, Long yCoordinate);
+
+    @Override
+    public List<MapObject> getMapObjectsByCoordinates(Long xCoordinateStart, Long xCoordinateFinish,
+                                               Long yCoordinateStart, Long yCoordinateFinish);
+    @Override
+    public void updateMapObject(MapObject mapObject);
+
+    @Override
+    public void deleteMapObject(Long xCoordinate, Long yCoordinate);
 }

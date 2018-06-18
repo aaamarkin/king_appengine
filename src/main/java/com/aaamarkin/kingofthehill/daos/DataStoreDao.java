@@ -4,6 +4,8 @@ import com.aaamarkin.kingofthehill.objects.MapObject;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
 
+import com.aaamarkin.kingofthehill.util.EntityKinds;
+import com.aaamarkin.kingofthehill.util.PropNames;
 import com.google.cloud.datastore.*;
 
 import com.google.cloud.datastore.StructuredQuery.OrderBy;
@@ -20,8 +22,8 @@ public class DataStoreDao implements UserDao, MapObjectDao {
 
     public DataStoreDao() {
         datastore = DatastoreOptions.getDefaultInstance().getService(); // Authorized Datastore service
-        userKeyFactory = datastore.newKeyFactory().setKind("User3");      // Is used for creating keys later
-        mapObjectKeyFactory = datastore.newKeyFactory().setKind("MapObject3");
+        userKeyFactory = datastore.newKeyFactory().setKind(EntityKinds.USER_KIND);      // Is used for creating keys later
+        mapObjectKeyFactory = datastore.newKeyFactory().setKind(EntityKinds.MAP_OBJECT_KIND);
     }
 
 
@@ -30,12 +32,12 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     public User entityToUser(Entity entity) {
 
         return new User.Builder()
-                .externalId(entity.getString(User.EXTERNAL_ID))
-                .password(entity.getString(User.PASSWORD))
+                .externalId(entity.getString(PropNames.EXTERNAL_ID))
+                .password(entity.getString(PropNames.PASSWORD))
                 .id(entity.getKey().getId())
-                .creationDate(entity.getString(User.CREATION_DATE))
-                .xCoordinate(entity.getLong(User.X_COORDINATE))
-                .yCoordinate(entity.getLong(User.Y_COORDINATE))
+                .creationDate(entity.getString(PropNames.CREATION_DATE))
+                .xCoordinate(entity.getLong(PropNames.X_COORDINATE))
+                .yCoordinate(entity.getLong(PropNames.Y_COORDINATE))
                 .build();
     }
 
@@ -43,11 +45,11 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     public User createUser(User user) {
         IncompleteKey key = userKeyFactory.newKey();          // Key will be assigned once written
         FullEntity<IncompleteKey> incUserEntity = Entity.newBuilder(key)  // Create the Entity
-                .set(User.EXTERNAL_ID, user.getExternalId())
-                .set(User.PASSWORD, user.getPassword())
-                .set(User.CREATION_DATE, user.getCreationDate())
-                .set(User.X_COORDINATE, user.getXCoordinate())
-                .set(User.Y_COORDINATE, user.getYCoordinate())
+                .set(PropNames.EXTERNAL_ID, user.getExternalId())
+                .set(PropNames.PASSWORD, user.getPassword())
+                .set(PropNames.CREATION_DATE, user.getCreationDate())
+                .set(PropNames.X_COORDINATE, user.getXCoordinate())
+                .set(PropNames.Y_COORDINATE, user.getYCoordinate())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
         return entityToUser(userEntity);
@@ -57,8 +59,8 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     public Optional<User> getUserByExternalId(String userExternalId) {
 
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("User3")
-                .setFilter(StructuredQuery.PropertyFilter.eq(User.EXTERNAL_ID, userExternalId)                )
+                .setKind(EntityKinds.USER_KIND)
+                .setFilter(StructuredQuery.PropertyFilter.eq(PropNames.EXTERNAL_ID, userExternalId)                )
                 .build();
 
         QueryResults<Entity> resultList = datastore.run(query);
@@ -81,8 +83,8 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     @Override
     public Optional<Key> getUserKeyByExternalId(String userExternalId) {
         Query<Key> query = Query.newKeyQueryBuilder()
-                .setKind("User3")
-                .setFilter(StructuredQuery.PropertyFilter.eq(User.EXTERNAL_ID, userExternalId)                )
+                .setKind(EntityKinds.USER_KIND)
+                .setFilter(StructuredQuery.PropertyFilter.eq(PropNames.EXTERNAL_ID, userExternalId)                )
                 .build();
 
         QueryResults<Key> resultList = datastore.run(query);
@@ -98,7 +100,7 @@ public class DataStoreDao implements UserDao, MapObjectDao {
 
 
         Query<Entity> query = Query.newEntityQueryBuilder()       // Build the Query
-                .setKind("User3")
+                .setKind(EntityKinds.USER_KIND)
                 .setLimit(10)
                 .build();
         QueryResults<Entity> resultList = datastore.run(query);   // Run the query
@@ -109,11 +111,11 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     public void updateUser(User user) {
         Key key = userKeyFactory.newKey(user.getId());  // From a user, create a Key
         Entity entity = Entity.newBuilder(key)         // Convert User to an Entity
-                .set(User.EXTERNAL_ID, user.getExternalId())
-                .set(User.PASSWORD, user.getPassword())
-                .set(User.CREATION_DATE, user.getCreationDate())
-                .set(User.X_COORDINATE, user.getXCoordinate())
-                .set(User.Y_COORDINATE, user.getYCoordinate())
+                .set(PropNames.EXTERNAL_ID, user.getExternalId())
+                .set(PropNames.PASSWORD, user.getPassword())
+                .set(PropNames.CREATION_DATE, user.getCreationDate())
+                .set(PropNames.X_COORDINATE, user.getXCoordinate())
+                .set(PropNames.Y_COORDINATE, user.getYCoordinate())
                 .build();
         datastore.update(entity);
     }
@@ -139,10 +141,10 @@ public class DataStoreDao implements UserDao, MapObjectDao {
             startCursor = Cursor.fromUrlSafe(startCursorString);    // Where we left off
         }
         Query<Entity> query = Query.newEntityQueryBuilder()       // Build the Query
-                .setKind("User3")                                     // We only care about Users
+                .setKind(EntityKinds.USER_KIND)                                     // We only care about Users
                 .setLimit(10)                                         // Only show 10 at a time
                 .setStartCursor(startCursor)                          // Where we left off
-                .setOrderBy(OrderBy.asc(User.PASSWORD))                  // Use default Index "title"
+                .setOrderBy(OrderBy.asc(PropNames.PASSWORD))                  // Use default Index "title"
                 .build();
         QueryResults<Entity> resultList = datastore.run(query);   // Run the query
         List<User> resultUsers = entitiesToUsers(resultList);     // Retrieve and convert Entities
@@ -161,33 +163,94 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     public MapObject entityToMapObject(Entity entity) {
 
         return new MapObject.Builder()
-                .type(Short.parseShort(entity.getString(MapObject.TYPE)))
-                .xCoordinate(entity.getLong(MapObject.X_COORDINATE))
-                .yCoordinate(entity.getLong(MapObject.Y_COORDINATE))
+                .type(entity.getString(PropNames.MAP_OBJECT_TYPE))
+                .xCoordinate(entity.getLong(PropNames.X_COORDINATE))
+                .yCoordinate(entity.getLong(PropNames.Y_COORDINATE))
                 .build();
+    }
+
+    public List<MapObject> entitiesToMapObjects(QueryResults<Entity> resultList) {
+        List<MapObject> resultMapObjects = new ArrayList<>();
+        while (resultList.hasNext()) {  // We still have data
+            resultMapObjects.add(entityToMapObject(resultList.next()));      // Add the Book to the List
+        }
+        return resultMapObjects;
     }
 
     @Override
     public MapObject createMapObject(MapObject mapObject) {
+
+
         IncompleteKey key = mapObjectKeyFactory.newKey();          // Key will be assigned once written
         FullEntity<IncompleteKey> incMapObjectEntity = Entity.newBuilder(key)  // Create the Entity
-                .set(MapObject.TYPE, mapObject.getType())
-                .set(MapObject.X_COORDINATE, mapObject.getXCoordinate())
-                .set(MapObject.Y_COORDINATE, mapObject.getYCoordinate())
+                .set(PropNames.MAP_OBJECT_TYPE, mapObject.getType())
+                .set(PropNames.X_COORDINATE, mapObject.getXCoordinate())
+                .set(PropNames.Y_COORDINATE, mapObject.getYCoordinate())
                 .build();
         Entity mapObjectEntity = datastore.add(incMapObjectEntity); // Save the Entity
         return entityToMapObject(mapObjectEntity);
     }
 
     @Override
-    public Optional<MapObject> getMapObjectByCoordinates(Long xCoordinate, Long yCoordinate);
+    public MapObject getMapObjectById(Long id) {
+
+        Entity mapObjectEntity = datastore.get(mapObjectKeyFactory.newKey(id));
+
+        return entityToMapObject(mapObjectEntity);
+
+    }
+
+    @Override
+    public Optional<MapObject> getMapObjectByCoordinates(Long xCoordinate, Long yCoordinate){
+
+        Query<Entity> query = Query.newEntityQueryBuilder()
+                .setKind(EntityKinds.MAP_OBJECT_KIND)
+                .setFilter(StructuredQuery.PropertyFilter.eq(PropNames.X_COORDINATE, xCoordinate))
+                .setFilter(StructuredQuery.PropertyFilter.eq(PropNames.Y_COORDINATE, yCoordinate))
+                .build();
+
+        QueryResults<Entity> resultList = datastore.run(query);
+
+        if(resultList.hasNext()){
+            return Optional.of(entityToMapObject(resultList.next()));
+        } else {
+            return Optional.empty();
+        }
+    }
 
     @Override
     public List<MapObject> getMapObjectsByCoordinates(Long xCoordinateStart, Long xCoordinateFinish,
-                                               Long yCoordinateStart, Long yCoordinateFinish);
-    @Override
-    public void updateMapObject(MapObject mapObject);
+                                               Long yCoordinateStart, Long yCoordinateFinish){
+
+        Query<Entity> query = Query.newEntityQueryBuilder()       // Build the Query
+                .setKind(EntityKinds.MAP_OBJECT_KIND)
+                .setFilter(StructuredQuery.PropertyFilter.gt(PropNames.X_COORDINATE, xCoordinateStart))
+                .setFilter(StructuredQuery.PropertyFilter.gt(PropNames.Y_COORDINATE, yCoordinateStart))
+                .setFilter(StructuredQuery.PropertyFilter.lt(PropNames.X_COORDINATE, xCoordinateFinish))
+                .setFilter(StructuredQuery.PropertyFilter.lt(PropNames.Y_COORDINATE, yCoordinateFinish))
+                .build();
+        QueryResults<Entity> resultList = datastore.run(query);   // Run the query
+        return entitiesToMapObjects(resultList);
+
+    }
 
     @Override
-    public void deleteMapObject(Long xCoordinate, Long yCoordinate);
+    public void updateMapObject(MapObject mapObject){
+
+        Key key = mapObjectKeyFactory.newKey(mapObject.getId());  // From a user, create a Key
+        Entity entity = Entity.newBuilder(key)         // Convert User to an Entity
+                .set(PropNames.MAP_OBJECT_TYPE, mapObject.getType())
+                .set(PropNames.X_COORDINATE, mapObject.getXCoordinate())
+                .set(PropNames.Y_COORDINATE, mapObject.getYCoordinate())
+                .build();
+        datastore.update(entity);
+
+    }
+
+    @Override
+    public void deleteMapObject(Long userId){
+
+        Key key = mapObjectKeyFactory.newKey(userId);        // Create the Key
+        datastore.delete(key);
+    }
 }

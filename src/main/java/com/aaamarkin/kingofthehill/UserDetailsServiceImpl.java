@@ -2,6 +2,7 @@ package com.aaamarkin.kingofthehill;
 
 import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.aaamarkin.kingofthehill.objects.User;
+import com.aaamarkin.kingofthehill.services.MapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .externalId(externalId)
                     .password(externalId)
                     .creationDate((String) servletContext.getAttribute("publishedDate"))
+                    .coordinates(MapService.GenerateInitialUserCoordinates())
                     .build();
 
             user = userDao.createUser(user);

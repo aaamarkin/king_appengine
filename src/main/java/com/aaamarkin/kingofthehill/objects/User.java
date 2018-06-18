@@ -1,5 +1,6 @@
 package com.aaamarkin.kingofthehill.objects;
 
+import com.aaamarkin.kingofthehill.util.Tuple;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +18,6 @@ public class User implements UserDetails
     private Long yCoordinate;
 
     private Long id;
-
-    public static final String PASSWORD = "a";
-    public static final String CREATION_DATE = "b";
-    public static final String EXTERNAL_ID = "c";
-    public static final String X_COORDINATE = "d";
-    public static final String Y_COORDINATE = "e";
-
-
 
     private User(Builder builder) {
         this.password = builder.password;
@@ -65,6 +58,12 @@ public class User implements UserDetails
 
         public Builder yCoordinate(Long yCoordinate) {
             this.yCoordinate = yCoordinate;
+            return this;
+        }
+
+        public Builder coordinates(Tuple<Long, Long> coordinate) {
+            this.xCoordinate = coordinate._1;
+            this.yCoordinate = coordinate._2;
             return this;
         }
 

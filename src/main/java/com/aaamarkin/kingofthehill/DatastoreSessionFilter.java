@@ -2,6 +2,7 @@ package com.aaamarkin.kingofthehill;
 
 import com.aaamarkin.kingofthehill.daos.DataStoreDao;
 import com.aaamarkin.kingofthehill.daos.UserDao;
+import com.aaamarkin.kingofthehill.util.EntityKinds;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.DatastoreOptions;
@@ -55,11 +56,11 @@ public class DatastoreSessionFilter implements Filter {
         // initialize local copy of datastore session variables
 
         datastore = DatastoreOptions.getDefaultInstance().getService();
-        keyFactory = datastore.newKeyFactory().setKind("SessionVariable");
+        keyFactory = datastore.newKeyFactory().setKind(EntityKinds.SESSION_KIND);
         // Delete all sessions unmodified for over two days
         DateTime dt = DateTime.now(DateTimeZone.UTC);
         Query<Entity> query = Query.newEntityQueryBuilder()
-                .setKind("SessionVariable")
+                .setKind(EntityKinds.SESSION_KIND)
                 .setFilter(PropertyFilter.le("lastModified", dt.minusDays(2).toString(dtf)))
                 .build();
         QueryResults<Entity> resultList = datastore.run(query);
@@ -190,7 +191,7 @@ public class DatastoreSessionFilter implements Filter {
         Transaction transaction = datastore.newTransaction();
         try {
             Query<Entity> query = Query.newEntityQueryBuilder()
-                    .setKind("SessionVariable")
+                    .setKind(EntityKinds.SESSION_KIND)
                     .setFilter(PropertyFilter.eq(varName, varValue))
                     .build();
             QueryResults<Entity> resultList = transaction.run(query);

@@ -1,21 +1,22 @@
 package com.aaamarkin.kingofthehill.objects;
 
+import com.aaamarkin.kingofthehill.util.Tuple;
+
 public class MapObject {
 
     private Long xCoordinate;
     private Long yCoordinate;
-    private Short type;
+    private String type;
+
+    private Long id;
 
 
-    public static final String X_COORDINATE = "a";
-    public static final String Y_COORDINATE = "b";
-    public static final String TYPE = "c";
 
     private MapObject(Builder builder) {
         this.xCoordinate = builder.xCoordinate;
         this.yCoordinate = builder.yCoordinate;
         this.type = builder.type;
-
+        this.id = builder.id;
     }
 
     public Long getXCoordinate() {
@@ -34,12 +35,16 @@ public class MapObject {
         this.yCoordinate = yCoordinate;
     }
 
-    public Short getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Short type) {
+    public void setType(String type) {
         this.type = type;
+    }
+
+    public Tuple<Long, Long> getCoordinates(){
+        return new Tuple<>(xCoordinate, yCoordinate);
     }
 
     @Override
@@ -51,10 +56,19 @@ public class MapObject {
                 '}';
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public static class Builder {
         private Long xCoordinate;
         private Long yCoordinate;
-        private Short type;
+        private String type;
+        private Long id;
 
         public Builder xCoordinate(Long xCoordinate) {
             this.xCoordinate = xCoordinate;
@@ -66,8 +80,13 @@ public class MapObject {
             return this;
         }
 
-        public Builder type(Short type) {
+        public Builder type(String type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
             return this;
         }
 

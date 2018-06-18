@@ -9,6 +9,8 @@ public interface MapObjectDao {
 
     MapObject createMapObject(MapObject mapObject);
 
+    MapObject getMapObjectById(Long id);
+
     Optional<MapObject> getMapObjectByCoordinates(Long xCoordinate, Long yCoordinate);
 
     List<MapObject> getMapObjectsByCoordinates(Long xCoordinateStart, Long xCoordinateFinish,
@@ -16,6 +18,6 @@ public interface MapObjectDao {
 
     void updateMapObject(MapObject mapObject);
 
-    void deleteMapObject(Long xCoordinate, Long yCoordinate);
+    void deleteMapObject(Long userId);
 
 }

@@ -1,15 +1,20 @@
 package com.aaamarkin.kingofthehill;
 
+import com.aaamarkin.kingofthehill.daos.DataStoreDao;
+import com.aaamarkin.kingofthehill.daos.MapObjectDao;
 import com.aaamarkin.kingofthehill.daos.UserDao;
+import com.aaamarkin.kingofthehill.objects.MapObject;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
 import com.aaamarkin.kingofthehill.services.MapService;
+import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Key;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,11 +23,6 @@ public class Controller {
 
     @Autowired
     ServletContext context;
-
-    @RequestMapping("/user/")
-    public String home() {
-        return "Hello World!";
-    }
 
     /**
      * (Optional) App Engine health check endpoint mapping.
@@ -35,35 +35,45 @@ public class Controller {
         // Message body required though ignored
         return "Still surviving.";
     }
-//
-//    @RequestMapping("/signIn")
-//    public String signIn(@RequestHeader("deviceId") String deviceId) {
-//        // Message body required though ignored
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//
-//        Optional<Key> keyOpt = dao.getUserKeyByExternalId(deviceId);
-//
-//        if (!keyOpt.isPresent()) {
-//
-//        }
-//    }
 
-//    @RequestMapping("/user/db")
-//    public String dbCheck(Principal principal) {
-//        // Message body required though ignored
-////        validateUser(principal);
-//
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//        // [START bookBuilder]
-//        User user = new User.Builder()
-//                .password("login1")
-//                .creationDate((String) context.getAttribute("publishedDate"))
-//                .build();
-//        // [END bookBuilder]
-//        Long id = dao.createUser(user);
-//
-//        return "Checking DB. Id = " + id;
-//    }
+
+    @RequestMapping("/user/db")
+    public String createFakeMap(Principal principal) {
+        // Message body required though ignored
+
+
+        MapObjectDao dao = (MapObjectDao) context.getAttribute("dao");
+        // [START bookBuilder]
+
+        MapObject mapObject = new MapObject.Builder()
+                .type("1").xCoordinate(1L).yCoordinate(1L).build();
+
+        dao.createMapObject(mapObject);
+
+        mapObject = new MapObject.Builder()
+                .type("2").xCoordinate(-1L).yCoordinate(-2L).build();
+
+        dao.createMapObject(mapObject);
+
+        mapObject = new MapObject.Builder()
+                .type("3").xCoordinate(-3L).yCoordinate(-2L).build();
+
+        dao.createMapObject(mapObject);
+
+        mapObject = new MapObject.Builder()
+                .type("4").xCoordinate(-2L).yCoordinate(-2L).build();
+
+        dao.createMapObject(mapObject);
+
+        mapObject = new MapObject.Builder()
+                .type("5").xCoordinate(0L).yCoordinate(-2L).build();
+
+        dao.createMapObject(mapObject);
+
+
+        return "createFakeMap";
+    }
+
 
     @RequestMapping("/user/{userId}/insert")
     public String insert(@PathVariable String userId) {
@@ -85,7 +95,7 @@ public class Controller {
     @RequestMapping("/user/get")
     public String dbGet() {
         // Message body required though ignored
-
+//        validateUser(principal);
         UserDao dao = (UserDao) context.getAttribute("dao");
         // [START bookBuilder]
 
@@ -96,28 +106,19 @@ public class Controller {
 
     @RequestMapping("/user/getMap")
     public byte[] downloadMap(Principal principal) {
+        //        validateUser(principal);
         // Message body required though ignored
 
-        UserDao dao = (UserDao) context.getAttribute("dao");
+        DataStoreDao dao = (DataStoreDao) context.getAttribute("dao");
 
         Optional<User> userOpt = dao.getUserByExternalId(principal.getName());
 
+        List<MapObject> mapObjects = dao.getMapObjectsByCoordinates(userOpt.get().getXCoordinate() - 100L,
+                userOpt.get().getXCoordinate() + 100L, userOpt.get().getYCoordinate() - 100L,
+                userOpt.get().getYCoordinate() + 100L);
 
-        return MapService.getMapAsByteArray(MapService.getMap(userOpt.get().getXCoordinate(), userOpt.get().getYCoordinate()));
+        return MapService.getMapAsByteArray(MapService.getMap(mapObjects));
 
-    }
-
-
-    @RequestMapping("/user/anon_login")
-    public String anonymousLogin(Principal principal) {
-//        validateUser(principal);
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//        dao.getUserKeyByExternalId(deviceId).map(
-//                key -> {
-//
-//                }
-//        );
-        return "A STUB";
     }
 
 
@@ -131,11 +132,6 @@ public class Controller {
         return "User = " + user.toString();
     }
 
-//    private void validateUser(String externalUserId) {
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//        dao.getUserKeyByExternalId(externalUserId).orElseThrow(
-//                () -> new UserNotFoundException(externalUserId));
-//    }
 
     @RequestMapping("/user/{userId}/delete")
     public String delete(@PathVariable Long userId) {
@@ -147,11 +143,6 @@ public class Controller {
         return "Deleted? ";
     }
 
-//    private void validateUser(String externalUserId) {
-//        UserDao dao = (UserDao) context.getAttribute("dao");
-//        dao.getUserKeyByExternalId(externalUserId).orElseThrow(
-//                () -> new UserNotFoundException(externalUserId));
-//    }
 
     private void validateUser(Principal principal) {
         System.out.println("validateUser = " + principal.getName());

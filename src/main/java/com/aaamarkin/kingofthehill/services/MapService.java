@@ -1,16 +1,37 @@
 package com.aaamarkin.kingofthehill.services;
 
+import com.aaamarkin.kingofthehill.objects.MapObject;
 import com.aaamarkin.kingofthehill.util.Tuple;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
+import java.util.List;
 
 public class MapService {
+
+    public static Tuple<Long, Long> GenerateInitialUserCoordinates(){
+
+        return new Tuple<Long, Long>(0L, 0L);
+    }
+
+    public static HashMap<Tuple<Long, Long>, Short> getMap(List<MapObject> mapObjects){
+
+        HashMap<Tuple<Long, Long>, Short> map = new HashMap<>();
+
+        for (MapObject mapObject : mapObjects) {
+
+            map.put(mapObject.getCoordinates(), Short.parseShort(mapObject.getType(), 10) );
+        }
+
+        return map;
+    }
 
     public static HashMap<Tuple<Long, Long>, Short> getMap(Long xUserCoord, Long yUserCoord){
 
         HashMap<Tuple<Long, Long>, Short> map = new HashMap<>();
+
+
 
         for (long i = -200; i < 200; i++){
 

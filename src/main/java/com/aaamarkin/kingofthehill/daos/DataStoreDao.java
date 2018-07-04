@@ -36,6 +36,7 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .password(entity.getString(PropNames.PASSWORD))
                 .id(entity.getKey().getId())
                 .creationDate(entity.getString(PropNames.CREATION_DATE))
+                .updateDate(entity.getString(PropNames.UPDATE_DATE))
                 .xCoordinate(entity.getLong(PropNames.X_COORDINATE))
                 .yCoordinate(entity.getLong(PropNames.Y_COORDINATE))
                 .build();
@@ -48,6 +49,7 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.EXTERNAL_ID, user.getExternalId())
                 .set(PropNames.PASSWORD, user.getPassword())
                 .set(PropNames.CREATION_DATE, user.getCreationDate())
+                .set(PropNames.UPDATE_DATE, user.getUpdateDate())
                 .set(PropNames.X_COORDINATE, user.getXCoordinate())
                 .set(PropNames.Y_COORDINATE, user.getYCoordinate())
                 .build();
@@ -114,6 +116,7 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.EXTERNAL_ID, user.getExternalId())
                 .set(PropNames.PASSWORD, user.getPassword())
                 .set(PropNames.CREATION_DATE, user.getCreationDate())
+                .set(PropNames.UPDATE_DATE, user.getUpdateDate())
                 .set(PropNames.X_COORDINATE, user.getXCoordinate())
                 .set(PropNames.Y_COORDINATE, user.getYCoordinate())
                 .build();

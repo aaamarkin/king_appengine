@@ -6,10 +6,12 @@ import com.aaamarkin.kingofthehill.daos.UserDao;
 import com.aaamarkin.kingofthehill.objects.MapObject;
 import com.aaamarkin.kingofthehill.objects.Result;
 import com.aaamarkin.kingofthehill.objects.User;
+import com.aaamarkin.kingofthehill.objects.UserInfo;
 import com.aaamarkin.kingofthehill.services.MapService;
 import com.google.cloud.datastore.Datastore;
 import com.google.cloud.datastore.Key;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
@@ -17,6 +19,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 public class Controller {
@@ -105,7 +109,7 @@ public class Controller {
     }
 
     @RequestMapping("/user/getMap")
-    public byte[] downloadMap(Principal principal) {
+    public byte[] downloadMap(Principal principal, @RequestParam("xCoord") Long xCoord, @RequestParam("yCoord") Long yCoord, @RequestParam("delta") Integer delta) {
         //        validateUser(principal);
         // Message body required though ignored
 
@@ -113,12 +117,41 @@ public class Controller {
 
         Optional<User> userOpt = dao.getUserByExternalId(principal.getName());
 
-        List<MapObject> mapObjects = dao.getMapObjectsByCoordinates(userOpt.get().getXCoordinate() - 100L,
-                userOpt.get().getXCoordinate() + 100L, userOpt.get().getYCoordinate() - 100L,
-                userOpt.get().getYCoordinate() + 100L);
+        List<MapObject> mapObjects = dao.getMapObjectsByCoordinates(xCoord - delta,
+                xCoord + delta, yCoord - delta,
+                yCoord + delta);
 
         return MapService.getMapAsByteArray(MapService.getMap(mapObjects));
 
+    }
+
+    @RequestMapping(value = "/user/getInfo", method = RequestMethod.GET, produces = "application/json")
+    public UserInfo getUserInfo(Principal principal) {
+        //        validateUser(principal);
+        // Message body required though ignored
+
+        DataStoreDao dao = (DataStoreDao) context.getAttribute("dao");
+
+        Optional<User> userOpt = dao.getUserByExternalId(principal.getName());
+
+        return userOpt.get().getUserInfo();
+
+    }
+
+    @RequestMapping(value = "/user/setInfo", method = RequestMethod.PUT)
+    public String setUserInfo(Principal principal, @RequestBody UserInfo userInfo) {
+        //        validateUser(principal);
+        // Message body required though ignored
+
+        DataStoreDao dao = (DataStoreDao) context.getAttribute("dao");
+
+        User user = dao.getUserByExternalId(principal.getName()).get();
+
+        user.updateUserFields(userInfo);
+
+        dao.updateUser(user);
+
+        return user.getUpdateDate();
     }
 
 

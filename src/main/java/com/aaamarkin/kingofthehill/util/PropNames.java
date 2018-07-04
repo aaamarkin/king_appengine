@@ -10,4 +10,6 @@ public class PropNames {
 
     public static final String MAP_OBJECT_TYPE = "f";
 
+    public static final String UPDATE_DATE = "g";
+
 }

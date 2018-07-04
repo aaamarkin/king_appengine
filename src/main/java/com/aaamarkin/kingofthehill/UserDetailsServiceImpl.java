@@ -34,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .externalId(externalId)
                     .password(externalId)
                     .creationDate((String) servletContext.getAttribute("publishedDate"))
+                    .updateDate((String) servletContext.getAttribute("publishedDate"))
                     .coordinates(MapService.GenerateInitialUserCoordinates())
                     .build();
 

@@ -1,6 +1,8 @@
 package com.aaamarkin.kingofthehill.objects;
 
 import com.aaamarkin.kingofthehill.util.Tuple;
+import com.aaamarkin.kingofthehill.util.UserSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ public class User implements UserDetails
 
     private String password;
     private String creationDate;
+    private String updateDate;
     private String externalId;
 
     private Long xCoordinate;
@@ -22,15 +25,30 @@ public class User implements UserDetails
     private User(Builder builder) {
         this.password = builder.password;
         this.creationDate = builder.creationDate;
+        this.updateDate = builder.updateDate;
         this.externalId = builder.externalId;
         this.xCoordinate = builder.xCoordinate;
         this.yCoordinate = builder.yCoordinate;
         this.id = builder.id;
     }
 
+    public void updateUserFields(UserInfo userInfo){
+        this.creationDate = userInfo.getCreationDate();
+        this.updateDate = userInfo.getUpdateDate();
+        this.xCoordinate = userInfo.getxCoordinate();
+        this.yCoordinate = userInfo.getyCoordinate();
+    }
+
+    public UserInfo getUserInfo(){
+
+        return new UserInfo(this.creationDate, this.updateDate, this.xCoordinate, this.yCoordinate);
+
+    }
+
     public static class Builder {
         private String password;
         private String creationDate;
+        private String updateDate;
         private String externalId;
         private Long xCoordinate;
         private Long yCoordinate;
@@ -45,6 +63,12 @@ public class User implements UserDetails
             this.creationDate = creationDate;
             return this;
         }
+
+        public Builder updateDate(String updateDate) {
+            this.updateDate = updateDate;
+            return this;
+        }
+
 
         public Builder externalId(String externalId) {
             this.externalId = externalId;
@@ -123,6 +147,14 @@ public class User implements UserDetails
         this.creationDate = creationDate;
     }
 
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public String getExternalId() {
         return externalId;
     }
@@ -161,7 +193,7 @@ public class User implements UserDetails
     public String toString() {
         return "User{" +
                 "password='" + password + '\'' +
-                ", creationDate='" + creationDate + '\'' +
+                ", updateDate='" + updateDate + '\'' +
                 ", externalId='" + externalId + '\'' +
                 ", xCoordinate=" + xCoordinate +
                 ", yCoordinate=" + yCoordinate +

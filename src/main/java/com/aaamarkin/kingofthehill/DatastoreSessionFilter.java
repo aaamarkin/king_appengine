@@ -17,8 +17,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -49,7 +47,7 @@ public class DatastoreSessionFilter implements Filter {
 
     private static Datastore datastore;
     private static KeyFactory keyFactory;
-    private static final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyyMMddHHmmssSSS");
+    private static final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyyMMddHHmmss");
 
     @Override
     public void init(FilterConfig config) throws ServletException {

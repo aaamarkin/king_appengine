@@ -50,27 +50,22 @@ public class Controller {
         // [START bookBuilder]
 
         MapObject mapObject = new MapObject.Builder()
-                .type("1").xCoordinate(1L).yCoordinate(1L).build();
+                .type("14").xCoordinate(1L).yCoordinate(1L).build();
 
         dao.createMapObject(mapObject);
 
         mapObject = new MapObject.Builder()
-                .type("2").xCoordinate(-1L).yCoordinate(-2L).build();
+                .type("15").xCoordinate(-1L).yCoordinate(-2L).build();
 
         dao.createMapObject(mapObject);
 
         mapObject = new MapObject.Builder()
-                .type("3").xCoordinate(-3L).yCoordinate(-2L).build();
+                .type("16").xCoordinate(-3L).yCoordinate(-2L).build();
 
         dao.createMapObject(mapObject);
 
         mapObject = new MapObject.Builder()
-                .type("4").xCoordinate(-2L).yCoordinate(-2L).build();
-
-        dao.createMapObject(mapObject);
-
-        mapObject = new MapObject.Builder()
-                .type("5").xCoordinate(0L).yCoordinate(-2L).build();
+                .type("17").xCoordinate(-2L).yCoordinate(-2L).build();
 
         dao.createMapObject(mapObject);
 

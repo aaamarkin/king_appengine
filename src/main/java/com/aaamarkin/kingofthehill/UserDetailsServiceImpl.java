@@ -36,6 +36,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .creationDate((String) servletContext.getAttribute("publishedDate"))
                     .updateDate((String) servletContext.getAttribute("publishedDate"))
                     .coordinates(MapService.GenerateInitialUserCoordinates())
+                    .maxBallHealth(100L)
+                    .currentBallHealth(100L)
+                    .maxTeaterHealth(100L)
+                    .currentTeaterHealth(100L)
+                    .maxBearingHealth(100L)
+                    .currentBearingHealth(100L)
+                    .maxEnergy(100L)
+                    .currentEnergy(100L)
                     .build();
 
             user = userDao.createUser(user);

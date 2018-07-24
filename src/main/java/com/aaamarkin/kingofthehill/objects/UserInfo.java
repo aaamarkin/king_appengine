@@ -8,14 +8,35 @@ public class UserInfo {
     private Long xCoordinate;
     private Long yCoordinate;
 
+    private Long maxBallHealth;
+    private Long currentBallHealth;
+
+    private Long maxTeaterHealth;
+    private Long currentTeaterHealth;
+
+    private Long maxBearingHealth;
+    private Long currentBearingHealth;
+
+    private Long maxEnergy;
+    private Long currentEnergy;
+
     public UserInfo(){}
 
-    UserInfo(String creationDate, String updateDate, Long xCoordinate, Long yCoordinate){
+    UserInfo(User user){
 
-        this.creationDate = creationDate;
-        this.updateDate = updateDate;
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+        this.creationDate = user.getCreationDate();
+        this.updateDate = user.getUpdateDate();
+        this.xCoordinate = user.getXCoordinate();
+        this.yCoordinate = user.getYCoordinate();
+
+        this.maxBallHealth = user.getMaxBallHealth();
+        this.currentBallHealth = user.getCurrentBallHealth();
+        this.maxTeaterHealth = user.getMaxTeaterHealth();
+        this.currentTeaterHealth = user.getCurrentTeaterHealth();
+        this.maxBearingHealth = user.getMaxBearingHealth();
+        this.currentBearingHealth = user.getCurrentBearingHealth();
+        this.maxEnergy = user.getMaxEnergy();
+        this.currentEnergy = user.getCurrentEnergy();
 
     }
 
@@ -51,6 +72,70 @@ public class UserInfo {
         this.yCoordinate = yCoordinate;
     }
 
+    public Long getMaxBallHealth() {
+        return maxBallHealth;
+    }
+
+    public void setMaxBallHealth(Long maxBallHealth) {
+        this.maxBallHealth = maxBallHealth;
+    }
+
+    public Long getCurrentBallHealth() {
+        return currentBallHealth;
+    }
+
+    public void setCurrentBallHealth(Long currentBallHealth) {
+        this.currentBallHealth = currentBallHealth;
+    }
+
+    public Long getMaxTeaterHealth() {
+        return maxTeaterHealth;
+    }
+
+    public void setMaxTeaterHealth(Long maxTeaterHealth) {
+        this.maxTeaterHealth = maxTeaterHealth;
+    }
+
+    public Long getCurrentTeaterHealth() {
+        return currentTeaterHealth;
+    }
+
+    public void setCurrentTeaterHealth(Long currentTeaterHealth) {
+        this.currentTeaterHealth = currentTeaterHealth;
+    }
+
+    public Long getMaxBearingHealth() {
+        return maxBearingHealth;
+    }
+
+    public void setMaxBearingHealth(Long maxBearingHealth) {
+        this.maxBearingHealth = maxBearingHealth;
+    }
+
+    public Long getCurrentBearingHealth() {
+        return currentBearingHealth;
+    }
+
+    public void setCurrentBearingHealth(Long currentBearingHealth) {
+        this.currentBearingHealth = currentBearingHealth;
+    }
+
+    public Long getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public void setMaxEnergy(Long maxEnergy) {
+        this.maxEnergy = maxEnergy;
+    }
+
+    public Long getCurrentEnergy() {
+        return currentEnergy;
+    }
+
+    public void setCurrentEnergy(Long currentEnergy) {
+        this.currentEnergy = currentEnergy;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -58,6 +143,14 @@ public class UserInfo {
                 ", updateDate='" + updateDate + '\'' +
                 ", xCoordinate=" + xCoordinate +
                 ", yCoordinate=" + yCoordinate +
+                ", maxBallHealth=" + maxBallHealth +
+                ", currentBallHealth=" + currentBallHealth +
+                ", maxTeaterHealth=" + maxTeaterHealth +
+                ", currentTeaterHealth=" + currentTeaterHealth +
+                ", maxBearingHealth=" + maxBearingHealth +
+                ", currentBearingHealth=" + currentBearingHealth +
+                ", maxEnergy=" + maxEnergy +
+                ", currentEnergy=" + currentEnergy +
                 '}';
     }
 }

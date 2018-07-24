@@ -39,6 +39,14 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .updateDate(entity.getString(PropNames.UPDATE_DATE))
                 .xCoordinate(entity.getLong(PropNames.X_COORDINATE))
                 .yCoordinate(entity.getLong(PropNames.Y_COORDINATE))
+                .maxBallHealth(entity.getLong(PropNames.MAX_BALL_HEALTH))
+                .currentBallHealth(entity.getLong(PropNames.CURRENT_BALL_HEALTH))
+                .maxTeaterHealth(entity.getLong(PropNames.MAX_TEETER_HEALTH))
+                .currentTeaterHealth(entity.getLong(PropNames.CURRENT_TEETER_HEALTH))
+                .maxBearingHealth(entity.getLong(PropNames.MAX_BEARING_HEALTH))
+                .currentBearingHealth(entity.getLong(PropNames.CURRENT_BEARING_HEALTH))
+                .maxEnergy(entity.getLong(PropNames.MAX_ENERGY))
+                .currentEnergy(entity.getLong(PropNames.CURRENT_ENERGY))
                 .build();
     }
 
@@ -52,6 +60,14 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.UPDATE_DATE, user.getUpdateDate())
                 .set(PropNames.X_COORDINATE, user.getXCoordinate())
                 .set(PropNames.Y_COORDINATE, user.getYCoordinate())
+                .set(PropNames.MAX_BALL_HEALTH, user.getMaxBallHealth())
+                .set(PropNames.CURRENT_BALL_HEALTH, user.getCurrentBallHealth())
+                .set(PropNames.MAX_TEETER_HEALTH, user.getMaxTeaterHealth())
+                .set(PropNames.CURRENT_TEETER_HEALTH, user.getCurrentTeaterHealth())
+                .set(PropNames.MAX_BEARING_HEALTH, user.getMaxBallHealth())
+                .set(PropNames.CURRENT_BEARING_HEALTH, user.getCurrentBearingHealth())
+                .set(PropNames.MAX_ENERGY, user.getMaxEnergy())
+                .set(PropNames.CURRENT_ENERGY, user.getCurrentEnergy())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
         return entityToUser(userEntity);
@@ -119,6 +135,14 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.UPDATE_DATE, user.getUpdateDate())
                 .set(PropNames.X_COORDINATE, user.getXCoordinate())
                 .set(PropNames.Y_COORDINATE, user.getYCoordinate())
+                .set(PropNames.MAX_BALL_HEALTH, user.getMaxBallHealth())
+                .set(PropNames.CURRENT_BALL_HEALTH, user.getCurrentBallHealth())
+                .set(PropNames.MAX_TEETER_HEALTH, user.getMaxTeaterHealth())
+                .set(PropNames.CURRENT_TEETER_HEALTH, user.getCurrentTeaterHealth())
+                .set(PropNames.MAX_BEARING_HEALTH, user.getMaxBallHealth())
+                .set(PropNames.CURRENT_BEARING_HEALTH, user.getCurrentBearingHealth())
+                .set(PropNames.MAX_ENERGY, user.getMaxEnergy())
+                .set(PropNames.CURRENT_ENERGY, user.getCurrentEnergy())
                 .build();
         datastore.update(entity);
     }

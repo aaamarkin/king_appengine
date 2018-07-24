@@ -20,6 +20,18 @@ public class User implements UserDetails
     private Long xCoordinate;
     private Long yCoordinate;
 
+    private Long maxBallHealth;
+    private Long currentBallHealth;
+
+    private Long maxTeaterHealth;
+    private Long currentTeaterHealth;
+
+    private Long maxBearingHealth;
+    private Long currentBearingHealth;
+
+    private Long maxEnergy;
+    private Long currentEnergy;
+
     private Long id;
 
     private User(Builder builder) {
@@ -29,6 +41,14 @@ public class User implements UserDetails
         this.externalId = builder.externalId;
         this.xCoordinate = builder.xCoordinate;
         this.yCoordinate = builder.yCoordinate;
+        this.maxBallHealth = builder.maxBallHealth;
+        this.currentBallHealth = builder.currentBallHealth;
+        this.maxTeaterHealth = builder.maxTeaterHealth;
+        this.currentTeaterHealth = builder.currentTeaterHealth;
+        this.maxBearingHealth = builder.maxBearingHealth;
+        this.currentBearingHealth = builder.currentBearingHealth;
+        this.maxEnergy = builder.maxEnergy;
+        this.currentEnergy = builder.currentEnergy;
         this.id = builder.id;
     }
 
@@ -37,11 +57,20 @@ public class User implements UserDetails
         this.updateDate = userInfo.getUpdateDate();
         this.xCoordinate = userInfo.getxCoordinate();
         this.yCoordinate = userInfo.getyCoordinate();
+
+        this.maxBallHealth = userInfo.getMaxBallHealth();
+        this.currentBallHealth = userInfo.getCurrentBallHealth();
+        this.maxTeaterHealth = userInfo.getMaxTeaterHealth();
+        this.currentTeaterHealth = userInfo.getCurrentTeaterHealth();
+        this.maxBearingHealth = userInfo.getMaxBearingHealth();
+        this.currentBearingHealth = userInfo.getCurrentBearingHealth();
+        this.maxEnergy = userInfo.getMaxEnergy();
+        this.currentEnergy = userInfo.getCurrentEnergy();
     }
 
     public UserInfo getUserInfo(){
 
-        return new UserInfo(this.creationDate, this.updateDate, this.xCoordinate, this.yCoordinate);
+        return new UserInfo(this);
 
     }
 
@@ -52,6 +81,16 @@ public class User implements UserDetails
         private String externalId;
         private Long xCoordinate;
         private Long yCoordinate;
+
+        private Long maxBallHealth;
+        private Long currentBallHealth;
+        private Long maxTeaterHealth;
+        private Long currentTeaterHealth;
+        private Long maxBearingHealth;
+        private Long currentBearingHealth;
+        private Long maxEnergy;
+        private Long currentEnergy;
+
         private Long id;
 
         public Builder password(String password) {
@@ -88,6 +127,46 @@ public class User implements UserDetails
         public Builder coordinates(Tuple<Long, Long> coordinate) {
             this.xCoordinate = coordinate._1;
             this.yCoordinate = coordinate._2;
+            return this;
+        }
+
+        public Builder maxBallHealth(Long maxBallHealth) {
+            this.maxBallHealth = maxBallHealth;
+            return this;
+        }
+
+        public Builder currentBallHealth(Long currentBallHealth) {
+            this.currentBallHealth = currentBallHealth;
+            return this;
+        }
+
+        public Builder maxTeaterHealth(Long maxTeaterHealth) {
+            this.maxTeaterHealth = maxTeaterHealth;
+            return this;
+        }
+
+        public Builder currentTeaterHealth(Long currentTeaterHealth) {
+            this.currentTeaterHealth = currentTeaterHealth;
+            return this;
+        }
+
+        public Builder maxBearingHealth(Long maxBearingHealth) {
+            this.maxBearingHealth = maxBearingHealth;
+            return this;
+        }
+
+        public Builder currentBearingHealth(Long currentBearingHealth) {
+            this.currentBearingHealth = currentBearingHealth;
+            return this;
+        }
+
+        public Builder maxEnergy(Long maxEnergy) {
+            this.maxEnergy = maxEnergy;
+            return this;
+        }
+
+        public Builder currentEnergy(Long currentEnergy) {
+            this.currentEnergy = currentEnergy;
             return this;
         }
 
@@ -189,15 +268,86 @@ public class User implements UserDetails
     }
 
 
+    public Long getMaxBallHealth() {
+        return maxBallHealth;
+    }
+
+    public void setMaxBallHealth(Long maxBallHealth) {
+        this.maxBallHealth = maxBallHealth;
+    }
+
+    public Long getCurrentBallHealth() {
+        return currentBallHealth;
+    }
+
+    public void setCurrentBallHealth(Long currentBallHealth) {
+        this.currentBallHealth = currentBallHealth;
+    }
+
+    public Long getMaxTeaterHealth() {
+        return maxTeaterHealth;
+    }
+
+    public void setMaxTeaterHealth(Long maxTeaterHealth) {
+        this.maxTeaterHealth = maxTeaterHealth;
+    }
+
+    public Long getCurrentTeaterHealth() {
+        return currentTeaterHealth;
+    }
+
+    public void setCurrentTeaterHealth(Long currentTeaterHealth) {
+        this.currentTeaterHealth = currentTeaterHealth;
+    }
+
+    public Long getMaxBearingHealth() {
+        return maxBearingHealth;
+    }
+
+    public void setMaxBearingHealth(Long maxBearingHealth) {
+        this.maxBearingHealth = maxBearingHealth;
+    }
+
+    public Long getCurrentBearingHealth() {
+        return currentBearingHealth;
+    }
+
+    public void setCurrentBearingHealth(Long currentBearingHealth) {
+        this.currentBearingHealth = currentBearingHealth;
+    }
+
+    public Long getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public void setMaxEnergy(Long maxEnergy) {
+        this.maxEnergy = maxEnergy;
+    }
+
+    public Long getCurrentEnergy() {
+        return currentEnergy;
+    }
+
+    public void setCurrentEnergy(Long currentEnergy) {
+        this.currentEnergy = currentEnergy;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "password='" + password + '\'' +
+                "creationDate='" + creationDate + '\'' +
                 ", updateDate='" + updateDate + '\'' +
                 ", externalId='" + externalId + '\'' +
                 ", xCoordinate=" + xCoordinate +
                 ", yCoordinate=" + yCoordinate +
-                ", id=" + id +
+                ", maxBallHealth=" + maxBallHealth +
+                ", currentBallHealth=" + currentBallHealth +
+                ", maxTeaterHealth=" + maxTeaterHealth +
+                ", currentTeaterHealth=" + currentTeaterHealth +
+                ", maxBearingHealth=" + maxBearingHealth +
+                ", currentBearingHealth=" + currentBearingHealth +
+                ", maxEnergy=" + maxEnergy +
+                ", currentEnergy=" + currentEnergy +
                 '}';
     }
 }

@@ -12,4 +12,13 @@ public class PropNames {
 
     public static final String UPDATE_DATE = "g";
 
+    public static final String MAX_BALL_HEALTH = "h";
+    public static final String CURRENT_BALL_HEALTH = "i";
+    public static final String MAX_TEETER_HEALTH = "j";
+    public static final String CURRENT_TEETER_HEALTH = "kg";
+    public static final String MAX_BEARING_HEALTH = "l";
+    public static final String CURRENT_BEARING_HEALTH = "m";
+    public static final String MAX_ENERGY = "n";
+    public static final String CURRENT_ENERGY = "o";
+
 }

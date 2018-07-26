@@ -32,6 +32,10 @@ public class User implements UserDetails
     private Long maxEnergy;
     private Long currentEnergy;
 
+    private Long woodCapacity;
+    private Long rubberCapacity;
+    private Long metalCapacity;
+
     private Long id;
 
     private User(Builder builder) {
@@ -49,6 +53,9 @@ public class User implements UserDetails
         this.currentBearingHealth = builder.currentBearingHealth;
         this.maxEnergy = builder.maxEnergy;
         this.currentEnergy = builder.currentEnergy;
+        this.woodCapacity = builder.woodCapacity;
+        this.rubberCapacity = builder.rubberCapacity;
+        this.metalCapacity = builder.metalCapacity;
         this.id = builder.id;
     }
 
@@ -66,6 +73,10 @@ public class User implements UserDetails
         this.currentBearingHealth = userInfo.getCurrentBearingHealth();
         this.maxEnergy = userInfo.getMaxEnergy();
         this.currentEnergy = userInfo.getCurrentEnergy();
+
+        this.metalCapacity = userInfo.getMetalCapacity();
+        this.woodCapacity = userInfo.getWoodCapacity();
+        this.rubberCapacity = userInfo.getRubberCapacity();
     }
 
     public UserInfo getUserInfo(){
@@ -90,6 +101,10 @@ public class User implements UserDetails
         private Long currentBearingHealth;
         private Long maxEnergy;
         private Long currentEnergy;
+
+        private Long woodCapacity;
+        private Long rubberCapacity;
+        private Long metalCapacity;
 
         private Long id;
 
@@ -167,6 +182,21 @@ public class User implements UserDetails
 
         public Builder currentEnergy(Long currentEnergy) {
             this.currentEnergy = currentEnergy;
+            return this;
+        }
+
+        public Builder metalCapacity(Long metalCapacity) {
+            this.metalCapacity = metalCapacity;
+            return this;
+        }
+
+        public Builder rubberCapacity(Long rubberCapacity) {
+            this.rubberCapacity = rubberCapacity;
+            return this;
+        }
+
+        public Builder woodCapacity(Long woodCapacity) {
+            this.woodCapacity = woodCapacity;
             return this;
         }
 
@@ -332,10 +362,35 @@ public class User implements UserDetails
         this.currentEnergy = currentEnergy;
     }
 
+    public Long getWoodCapacity() {
+        return woodCapacity;
+    }
+
+    public void setWoodCapacity(Long woodCapacity) {
+        this.woodCapacity = woodCapacity;
+    }
+
+    public Long getRubberCapacity() {
+        return rubberCapacity;
+    }
+
+    public void setRubberCapacity(Long rubberCapacity) {
+        this.rubberCapacity = rubberCapacity;
+    }
+
+    public Long getMetalCapacity() {
+        return metalCapacity;
+    }
+
+    public void setMetalCapacity(Long metalCapacity) {
+        this.metalCapacity = metalCapacity;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "creationDate='" + creationDate + '\'' +
+                "password='" + password + '\'' +
+                ", creationDate='" + creationDate + '\'' +
                 ", updateDate='" + updateDate + '\'' +
                 ", externalId='" + externalId + '\'' +
                 ", xCoordinate=" + xCoordinate +
@@ -348,6 +403,10 @@ public class User implements UserDetails
                 ", currentBearingHealth=" + currentBearingHealth +
                 ", maxEnergy=" + maxEnergy +
                 ", currentEnergy=" + currentEnergy +
+                ", woodCapacity=" + woodCapacity +
+                ", rubberCapacity=" + rubberCapacity +
+                ", metalCapacity=" + metalCapacity +
+                ", id=" + id +
                 '}';
     }
 }

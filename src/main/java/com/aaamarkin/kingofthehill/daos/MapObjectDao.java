@@ -1,6 +1,7 @@
 package com.aaamarkin.kingofthehill.daos;
 
 import com.aaamarkin.kingofthehill.objects.MapObject;
+import com.aaamarkin.kingofthehill.objects.Result;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,10 @@ public interface MapObjectDao {
 
     void updateMapObject(MapObject mapObject);
 
-    void deleteMapObject(Long userId);
+    void deleteMapObject(Long mapObjId);
+
+    void deleteMapObjectByCoordinates(Long xCoordinate, Long yCoordinate);
+
+    Result<MapObject> listMapObjects(String startCursorString);
 
 }

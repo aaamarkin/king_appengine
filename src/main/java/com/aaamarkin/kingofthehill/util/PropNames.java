@@ -21,4 +21,8 @@ public class PropNames {
     public static final String MAX_ENERGY = "n";
     public static final String CURRENT_ENERGY = "o";
 
+    public static final String METAL_CAPACITY = "p";
+    public static final String RUBBER_CAPACITY = "q";
+    public static final String WOOD_CAPACITY = "r";
+
 }

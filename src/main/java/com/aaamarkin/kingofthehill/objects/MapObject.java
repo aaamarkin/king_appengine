@@ -52,7 +52,8 @@ public class MapObject {
         return "MapObject{" +
                 "xCoordinate=" + xCoordinate +
                 ", yCoordinate=" + yCoordinate +
-                ", type=" + type +
+                ", type='" + type + '\'' +
+                ", id=" + id +
                 '}';
     }
 

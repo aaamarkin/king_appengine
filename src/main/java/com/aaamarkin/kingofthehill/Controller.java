@@ -120,6 +120,15 @@ public class Controller {
 
     }
 
+    @RequestMapping("/user/deleteObj")
+    public void deleteMapObject(Principal principal, @RequestParam("xCoord") Long xCoord, @RequestParam("yCoord") Long yCoord) {
+
+        DataStoreDao dao = (DataStoreDao) context.getAttribute("dao");
+
+        dao.deleteMapObjectByCoordinates(xCoord, yCoord);
+
+    }
+
     @RequestMapping(value = "/user/getInfo", method = RequestMethod.GET, produces = "application/json")
     public UserInfo getUserInfo(Principal principal) {
         //        validateUser(principal);
@@ -150,14 +159,16 @@ public class Controller {
     }
 
 
-    @RequestMapping("/user/{userId}/test")
-    public String test(@PathVariable Long userId) {
+    @RequestMapping("/user/getMapObjects")
+    public String getAllMapObjects() {
+        // Message body required though ignored
+//        validateUser(principal);
+        MapObjectDao dao = (MapObjectDao) context.getAttribute("dao");
+        // [START bookBuilder]
 
-        UserDao dao = (UserDao) context.getAttribute("dao");
+        Result<MapObject> mapObjectResult = dao.listMapObjects(null);
 
-        User user = dao.getUserById(userId);
-
-        return "User = " + user.toString();
+        return mapObjectResult.result.toString();
     }
 
 

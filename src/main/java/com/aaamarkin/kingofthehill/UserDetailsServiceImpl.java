@@ -44,6 +44,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     .currentBearingHealth(100L)
                     .maxEnergy(100L)
                     .currentEnergy(100L)
+                    .woodCapacity(0L)
+                    .metalCapacity(0L)
+                    .rubberCapacity(0L)
                     .build();
 
             user = userDao.createUser(user);

@@ -20,6 +20,10 @@ public class UserInfo {
     private Long maxEnergy;
     private Long currentEnergy;
 
+    private Long woodCapacity;
+    private Long rubberCapacity;
+    private Long metalCapacity;
+
     public UserInfo(){}
 
     UserInfo(User user){
@@ -37,6 +41,10 @@ public class UserInfo {
         this.currentBearingHealth = user.getCurrentBearingHealth();
         this.maxEnergy = user.getMaxEnergy();
         this.currentEnergy = user.getCurrentEnergy();
+
+        this.woodCapacity = user.getWoodCapacity();
+        this.rubberCapacity = user.getRubberCapacity();
+        this.metalCapacity = user.getMetalCapacity();
 
     }
 
@@ -136,6 +144,30 @@ public class UserInfo {
         this.currentEnergy = currentEnergy;
     }
 
+    public Long getWoodCapacity() {
+        return woodCapacity;
+    }
+
+    public void setWoodCapacity(Long woodCapacity) {
+        this.woodCapacity = woodCapacity;
+    }
+
+    public Long getRubberCapacity() {
+        return rubberCapacity;
+    }
+
+    public void setRubberCapacity(Long rubberCapacity) {
+        this.rubberCapacity = rubberCapacity;
+    }
+
+    public Long getMetalCapacity() {
+        return metalCapacity;
+    }
+
+    public void setMetalCapacity(Long metalCapacity) {
+        this.metalCapacity = metalCapacity;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -151,6 +183,9 @@ public class UserInfo {
                 ", currentBearingHealth=" + currentBearingHealth +
                 ", maxEnergy=" + maxEnergy +
                 ", currentEnergy=" + currentEnergy +
+                ", woodCapacity=" + woodCapacity +
+                ", rubberCapacity=" + rubberCapacity +
+                ", metalCapacity=" + metalCapacity +
                 '}';
     }
 }

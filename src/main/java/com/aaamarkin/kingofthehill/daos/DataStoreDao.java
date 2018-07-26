@@ -47,6 +47,9 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .currentBearingHealth(entity.getLong(PropNames.CURRENT_BEARING_HEALTH))
                 .maxEnergy(entity.getLong(PropNames.MAX_ENERGY))
                 .currentEnergy(entity.getLong(PropNames.CURRENT_ENERGY))
+                .metalCapacity(entity.getLong(PropNames.METAL_CAPACITY))
+                .woodCapacity(entity.getLong(PropNames.WOOD_CAPACITY))
+                .rubberCapacity(entity.getLong(PropNames.RUBBER_CAPACITY))
                 .build();
     }
 
@@ -68,6 +71,9 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.CURRENT_BEARING_HEALTH, user.getCurrentBearingHealth())
                 .set(PropNames.MAX_ENERGY, user.getMaxEnergy())
                 .set(PropNames.CURRENT_ENERGY, user.getCurrentEnergy())
+                .set(PropNames.METAL_CAPACITY, user.getMetalCapacity())
+                .set(PropNames.WOOD_CAPACITY, user.getWoodCapacity())
+                .set(PropNames.RUBBER_CAPACITY, user.getRubberCapacity())
                 .build();
         Entity userEntity = datastore.add(incUserEntity); // Save the Entity
         return entityToUser(userEntity);
@@ -143,6 +149,9 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .set(PropNames.CURRENT_BEARING_HEALTH, user.getCurrentBearingHealth())
                 .set(PropNames.MAX_ENERGY, user.getMaxEnergy())
                 .set(PropNames.CURRENT_ENERGY, user.getCurrentEnergy())
+                .set(PropNames.WOOD_CAPACITY, user.getCurrentEnergy())
+                .set(PropNames.METAL_CAPACITY, user.getCurrentEnergy())
+                .set(PropNames.RUBBER_CAPACITY, user.getCurrentEnergy())
                 .build();
         datastore.update(entity);
     }
@@ -193,6 +202,7 @@ public class DataStoreDao implements UserDao, MapObjectDao {
                 .type(entity.getString(PropNames.MAP_OBJECT_TYPE))
                 .xCoordinate(entity.getLong(PropNames.X_COORDINATE))
                 .yCoordinate(entity.getLong(PropNames.Y_COORDINATE))
+                .id(entity.getKey().getId())
                 .build();
     }
 
@@ -275,9 +285,42 @@ public class DataStoreDao implements UserDao, MapObjectDao {
     }
 
     @Override
-    public void deleteMapObject(Long userId){
+    public void deleteMapObject(Long mapObjectId){
 
-        Key key = mapObjectKeyFactory.newKey(userId);        // Create the Key
+        Key key = mapObjectKeyFactory.newKey(mapObjectId);        // Create the Key
+
         datastore.delete(key);
+    }
+
+    @Override
+    public void deleteMapObjectByCoordinates(Long xCoordinate, Long yCoordinate) {
+
+        Optional<MapObject> mapObjOpt = getMapObjectByCoordinates(xCoordinate, yCoordinate);
+
+        if (mapObjOpt.isPresent()) {
+            deleteMapObject(mapObjOpt.get().getId());
+        }
+    }
+
+    @Override
+    public Result<MapObject> listMapObjects(String startCursorString) {
+        Cursor startCursor = null;
+        if (startCursorString != null && !startCursorString.equals("")) {
+            startCursor = Cursor.fromUrlSafe(startCursorString);    // Where we left off
+        }
+        Query<Entity> query = Query.newEntityQueryBuilder()       // Build the Query
+                .setKind(EntityKinds.MAP_OBJECT_KIND)                                     // We only care about Users
+                .setLimit(10)                                         // Only show 10 at a time
+                .setStartCursor(startCursor)                                  // Use default Index "title"
+                .build();
+        QueryResults<Entity> resultList = datastore.run(query);   // Run the query
+        List<MapObject> resultMapObjects = entitiesToMapObjects(resultList);     // Retrieve and convert Entities
+        Cursor cursor = resultList.getCursorAfter();              // Where to start next time
+        if (cursor != null && resultMapObjects.size() == 10) {         // Are we paging? Save Cursor
+            String cursorString = cursor.toUrlSafe();               // Cursors are WebSafe
+            return new Result<>(resultMapObjects, cursorString);
+        } else {
+            return new Result<>(resultMapObjects);
+        }
     }
 }
